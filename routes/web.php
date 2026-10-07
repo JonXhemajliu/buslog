@@ -38,10 +38,20 @@ Route::middleware(AuthCheck::class)->group(function () {
     // ===== COMPANY ONLY ROUTES =====
     Route::middleware(CheckCompany::class)->group(function () {
         // Company Dashboard
-        Route::get('company/dashboard', function () {
-            return view('company.dashboard.dashboard');
-        })->name('company.dashboard');
+Route::get('company/dashboard', function () {
+    $companyId = auth('company')->id();
 
+    $employees = \App\Models\Employee::where('company_id', $companyId)->get();
+    $buses = \App\Models\Bus::where('company_id', $companyId)->get();
+
+    return view('company.dashboard.dashboard', [
+        'employees' => $employees,
+        'buses' => $buses,
+        'totalBuses' => $buses->count(),
+        'activeBuses' => $buses->where('status', 'active')->count(),
+        'employeesCount' => $employees->count(),
+    ]);
+})->name('company.dashboard');
         // Employee Management
         Route::get('employees', [EmployeeController::class, 'index'])->name('employees.index');
         Route::post('employees', [EmployeeController::class, 'store'])->name('employees.store');

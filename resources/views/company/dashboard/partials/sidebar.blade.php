@@ -1,17 +1,18 @@
 {{-- Sidebar --}}
 <div class="w-80 bg-gray-100 border-r border-gray-200 fixed inset-y-0 left-0 z-50 flex flex-col shadow-sm">
     <div class="p-6 flex-1 overflow-y-auto ml-4">
-        {{-- Logo --}}
-        <div class="bg-white rounded-r-lg p-6 mb-4">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center text-white">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="5" width="18" height="11" rx="2"/><path d="M3 11h18"/><path d="M7 16v3M17 16v3"/><circle cx="7" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>
-                    </svg>
-                </div>
-                <span class="font-bold text-xl text-gray-900">BusLog</span>
-            </div>
+    {{-- Logo --}}
+<div class="bg-white rounded-r-lg p-6 mb-4">
+    <button type="button" onclick="switchTab('dashboard')"
+            class="w-full flex items-center gap-3 text-left cursor-pointer hover:opacity-80 transition">
+        <div class="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center text-white">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="5" width="18" height="11" rx="2"/><path d="M3 11h18"/><path d="M7 16v3M17 16v3"/><circle cx="7" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>
+            </svg>
         </div>
+        <span class="font-bold text-xl text-gray-900">BusLog</span>
+    </button>
+</div>
 
         {{-- Navigation --}}
         <div class="bg-gray-100 rounded-r-lg p-6 mr-4">

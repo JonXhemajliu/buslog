@@ -24,29 +24,35 @@
                 <span class="font-display font-bold text-xl">BusLog</span>
             </div>
             <div class="flex gap-3 items-center">
-                @if (session('company_id'))
-                    <span class="text-sm text-gray-600">Company</span>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm">Logout</button>
-                    </form>
-                @elseif (session('employee_id'))
-                    <span class="text-sm text-gray-600">Employee</span>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm">Logout</button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg text-sm font-medium">Kyçu</a>
-                    <a href="{{ route('register') }}" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium">Regjistrohu</a>
-                @endif
+              <div class="flex gap-3 items-center">
+    @if (auth('company')->check())
+        <a href="{{ route('company.dashboard') }}" class="text-sm text-gray-600 hover:text-red-600">
+            {{ auth('company')->user()->name }} (Kompani)
+        </a>
+        <form action="{{ route('logout') }}" method="POST" class="inline">
+            @csrf
+            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm">Dalje</button>
+        </form>
+    @elseif (auth('employee')->check())
+        <span class="text-sm text-gray-600">
+            {{ auth('employee')->user()->name }} (Punonjës)
+        </span>
+        <form action="{{ route('logout') }}" method="POST" class="inline">
+            @csrf
+            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm">Dalje</button>
+        </form>
+    @else
+        <a href="{{ route('login') }}" class="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg text-sm font-medium">Kyçu</a>
+        <a href="{{ route('register') }}" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium">Regjistrohu</a>
+    @endif
+</div>
             </div>
         </div>
     </nav>
 
-    {{-- Content --}}
+       {{-- Content --}}
     <div class="max-w-7xl mx-auto px-4 py-8">
-        @if (session('success'))
+        @if (session('success') && !request()->routeIs('company.dashboard'))
             <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
                 {{ session('success') }}
             </div>
@@ -56,9 +62,12 @@
     </div>
 
     {{-- Modals (JASHTË content container) --}}
-    @include('company.dashboard.partials.modals.add-employee-tab')
-    @include('company.dashboard.partials.modals.edit-employee-tab')
-    @include('company.dashboard.partials.modals.bus-modal')
+    @if (auth('company')->check())
+        @include('company.dashboard.partials.modals.add-employee-tab')
+        @include('company.dashboard.partials.modals.edit-employee-tab')
+        @include('company.dashboard.partials.modals.bus-modal')
+        @include('company.dashboard.partials.modals.edit-bus-modal')
+    @endif
 
 </body>
 </html>

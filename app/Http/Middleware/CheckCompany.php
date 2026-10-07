@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Auth;
 class CheckCompany
 {
     public function handle($request, Closure $next)
-    {
-        // ✅ Kontrollo nëse është logged in si Company
-        if (!Auth::guard('company')->check()) {
-            abort(403);
-        }
-
-        return $next($request);
+{
+    if (!Auth::guard('company')->check()) {
+        abort(403, 'Only companies can manage employees');
     }
+
+    return $next($request);
+}
 }

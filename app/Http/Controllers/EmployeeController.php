@@ -12,7 +12,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $this->checkCompany();
-        $employees = Employee::where('company_id', Session::get('company_id'))->get();
+        $employees = Employee::where('company_id', auth('company')->id())->get();
         return view('employees.index', compact('employees'));
     }
 
@@ -38,7 +38,7 @@ class EmployeeController extends Controller
         ]);
 
         Employee::create([
-            'company_id' => Session::get('company_id'),
+            'company_id' => auth('company')->id(),
             'title' => $validated['title'],
             'name' => $validated['name'],
             'surname' => $validated['surname'],
@@ -46,9 +46,10 @@ class EmployeeController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
-
-        return redirect()->route('employees.index')->with('success', 'Employee added!');
-    }
+return redirect()->route('company.dashboard')
+    ->with('tab', 'employees')
+    ->with('success', 'Punonjësi u shtua me sukses!');
+      }
 
     // Edit form
     public function edit($id)
@@ -77,8 +78,9 @@ class EmployeeController extends Controller
 
         $employee->update($validated);
 
-        return redirect()->route('employees.index')->with('success', 'Employee updated!');
-    }
+return redirect()->route('company.dashboard')
+    ->with('tab', 'employees')
+    ->with('success', 'Punonjësi u përditësua me sukses!');    }
 
     // Delete employee
     public function destroy($id)
@@ -88,21 +90,22 @@ class EmployeeController extends Controller
         $this->checkOwnership($employee);
         $employee->delete();
 
-        return redirect()->route('employees.index')->with('success', 'Employee deleted!');
+        return redirect()->route('company.dashboard')
+    ->with('tab', 'employees')
+    ->with('success', 'Punonjësi u fshi me sukses!');
     }
 
-    // Helper: Check if user is company
-    private function checkCompany()
-    {
-        if (Session::get('user_type') !== 'company') {
-            abort(403, 'Only companies can manage employees');
-        }
+private function checkCompany()
+{
+    if (!auth('company')->check()) {
+        abort(403, 'Only companies can manage employees');
     }
+}
 
     // Helper: Check if employee belongs to this company
     private function checkOwnership($employee)
     {
-        if ($employee->company_id !== Session::get('company_id')) {
+        if ($employee->company_id !== auth('company')->id()) {
             abort(403);
         }
     }

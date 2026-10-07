@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (session('company_id'))
+    @if auth('company')->id()
         @include('pages.dashboard')
     @elseif (session('employee_id'))
         @include('pages.employee-dashboard')

@@ -31,34 +31,30 @@ class AuthController extends Controller
     }
 
     // Login (Company & Employee)
-    public function login(Request $request)
-    {
-        $validated = $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ]);
+   public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
 
-        // Try Employee Login
-        $employee = Employee::where('username', $validated['username'])->first();
-        if ($employee && Hash::check($validated['password'], $employee->password)) {
-            Auth::guard('employee')->login($employee);
-            return redirect()->route('track-buses');
-        }
-
-        // Try Company Login
-        $company = Company::where('email', $validated['username'])->first();
-        if ($company && Hash::check($validated['password'], $company->password)) {
-            Auth::guard('company')->login($company);
-            return redirect()->route('company.dashboard');
-        }
-
-        return back()->withErrors(['username' => 'Invalid credentials']);
+    if (Auth::guard('company')->attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect()->route('company.dashboard');
     }
 
-    // Logout
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('login');
+    if (Auth::guard('employee')->attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect()->route('dashboard');
     }
+
+    return back()->withErrors(['email' => 'Email ose fjalëkalim i gabuar.'])->withInput();
 }
+
+  public function logout(Request $request)
+{
+    Auth::guard('company')->logout();
+    Auth::guard('employee')->logout(); 
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('home');
+}}

@@ -11,7 +11,7 @@ class EmployeeProfileController extends Controller
     // Edit own profile
     public function edit()
     {
-        $employee = Employee::findOrFail(Session::get('employee_id'));
+$employee = auth('employee')->user();
         return view('profile.edit', compact('employee'));
     }
 
