@@ -9,9 +9,7 @@ use App\Http\Middleware\CheckEmployee;
 
 // ===== PUBLIC ROUTES (NO MIDDLEWARE) =====
 Route::get('/', function () {
-    // Nëse je logged in, shfaq home page normalisht (jo redirect)
-    // Nëse nuk je logged in, shfaq home page
-    return view('pages.home');  // ← NDRYSHOJI NGA 'home' NË 'pages.home'
+    return view('pages.home');
 })->name('home');
 
 Route::get('login', function () {
@@ -29,7 +27,6 @@ Route::post('register', [AuthController::class, 'registerCompany'])->name('regis
 Route::middleware(AuthCheck::class)->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     
-    // Generic dashboard (keep for compatibility)
     Route::get('dashboard', function () {
         return view('app', ['page' => 'dashboard']);
     })->name('dashboard');
@@ -41,9 +38,9 @@ Route::middleware(AuthCheck::class)->group(function () {
     // ===== COMPANY ONLY ROUTES =====
     Route::middleware(CheckCompany::class)->group(function () {
         // Company Dashboard
-      Route::get('company/dashboard', function () {
-    return view('company.dashboard.dashboard');
-})->name('company.dashboard');
+        Route::get('company/dashboard', function () {
+            return view('company.dashboard.dashboard');
+        })->name('company.dashboard');
 
         // Employee Management
         Route::get('employees', [EmployeeController::class, 'index'])->name('employees.index');
@@ -51,11 +48,11 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::put('employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
         Route::delete('employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
         
-        // Bus Management
+        // Bus Management (KËTU - NUK DUPLIKAT)
         Route::get('buses', [BusController::class, 'index'])->name('buses.index');
         Route::post('buses', [BusController::class, 'store'])->name('buses.store');
-        Route::put('buses/{id}', [BusController::class, 'update'])->name('buses.update');
-        Route::delete('buses/{id}', [BusController::class, 'destroy'])->name('buses.destroy');
+    Route::put('buses/{bus}', [BusController::class, 'update'])->name('buses.update');
+Route::delete('buses/{bus}', [BusController::class, 'destroy'])->name('buses.destroy');
     });
 
     // ===== EMPLOYEE ONLY ROUTES =====
@@ -64,3 +61,6 @@ Route::middleware(AuthCheck::class)->group(function () {
         Route::post('profile', [EmployeeProfileController::class, 'update'])->name('profile.update');
     });
 });
+Route::get('test-modal', function() {
+    return view('test-bus-modal');
+})->name('test-modal');

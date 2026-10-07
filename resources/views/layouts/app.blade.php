@@ -54,5 +54,11 @@
 
         @yield('content')
     </div>
+
+    {{-- Modals (JASHTË content container) --}}
+    @include('company.dashboard.partials.modals.add-employee-tab')
+    @include('company.dashboard.partials.modals.edit-employee-tab')
+    @include('company.dashboard.partials.modals.bus-modal')
+
 </body>
 </html>

@@ -2,8 +2,7 @@
 <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
     <h2 class="text-lg font-semibold text-gray-900 mb-4">Veprimet e Shpejta</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <button onclick="switchTab('buses')" class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-center">
-            <svg class="w-6 h-6 text-red-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+<button onclick="openModal('addBusModal')" class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-center">            <svg class="w-6 h-6 text-red-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
             <p class="text-sm font-medium text-gray-900">Shto Autobus</p>
         </button>
         <button onclick="switchTab('employees')" class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-center">
