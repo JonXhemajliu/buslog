@@ -31,21 +31,36 @@ class AuthController extends Controller
     }
 
     // Login (Company & Employee)
-   public function login(Request $request)
+public function login(Request $request)
 {
-    $credentials = $request->only('email', 'password');
+    $request->validate([
+        'login' => 'required|string',
+        'password' => 'required|string',
+    ], [
+        'login.required' => 'Email-i ose username është i detyrueshëm.',
+        'password.required' => 'Fjalëkalimi është i detyrueshëm.',
+    ]);
 
-    if (Auth::guard('company')->attempt($credentials)) {
+    $login = trim($request->login);
+    $password = $request->password;
+
+    // Kompania hyn me email
+    if (Auth::guard('company')->attempt(['email' => $login, 'password' => $password])) {
         $request->session()->regenerate();
         return redirect()->route('company.dashboard');
     }
 
-    if (Auth::guard('employee')->attempt($credentials)) {
+    // Punonjësi hyn me email ose username
+    $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+    if (Auth::guard('employee')->attempt([$field => $login, 'password' => $password])) {
         $request->session()->regenerate();
         return redirect()->route('dashboard');
     }
 
-    return back()->withErrors(['email' => 'Email ose fjalëkalim i gabuar.'])->withInput();
+    return back()
+        ->withErrors(['login' => 'Email/username ose fjalëkalim i gabuar.'])
+        ->withInput($request->only('login'));
 }
 
   public function logout(Request $request)
