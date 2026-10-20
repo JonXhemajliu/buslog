@@ -1,8 +1,8 @@
 @php
     $statusLabels = ['active' => 'Aktiv', 'inactive' => 'Joaktiv', 'maintenance' => 'Mirëmbajtje'];
     $emp = auth('employee')->user();
-    $recent = $buses->sortByDesc('updated_at')->take(10);
-@endphp
+$buses = $buses ?? \App\Models\Bus::where('company_id', $emp->company_id)->get();
+$recent = $buses->sortByDesc('updated_at')->take(10);@endphp
 
 @if ($errors->any())
     <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">

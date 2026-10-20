@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Middleware\AuthCheck;
 use App\Http\Middleware\CheckCompany;
 use App\Http\Middleware\CheckEmployee;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,8 +23,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.employee' => CheckEmployee::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*'),
-        );
-    })->create();
+  ->withExceptions(function (Exceptions $exceptions): void {
+    $exceptions->render(function (NotFoundHttpException|MethodNotAllowedHttpException $e, $request) {
+        if ($request->expectsJson()) {
+            return null;
+        }
+
+        return response()->view('pages.error', [], 404);
+    });
+})->create();

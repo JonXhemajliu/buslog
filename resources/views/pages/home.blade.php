@@ -8,43 +8,44 @@
 </head>
 <body class="bg-white text-gray-900">
     {{-- TOP NAVBAR --}}
- <div class="bg-white border-b border-gray-200 sticky top-0 z-40">
-    <div class="px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-    {{-- DASHBOARD/HOME BUTTON --}}
-    @if (Auth::guard('company')->check())
-     <a href="{{ route('company.dashboard') }}" class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/></svg>
-    Dashboard
-</a>
-    @elseif (Auth::guard('employee')->check())
-        <a href="{{ route('track-buses') }}" class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 4v4m0 0v2m0-2v-2m9-2v2m0 0v2m0-2v-2"/></svg>
-            Dashboard
-        </a>
-    @else
-        <a href="{{ route('home') }}" class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded-lg transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Home
-        </a>
-    @endif
-</div>
-        <div class="flex items-center gap-3">
-            {{-- LOGOUT/LOGIN BUTTONS --}}
-            @if (Auth::guard('company')->check() || Auth::guard('employee')->check())
-                <form action="{{ route('logout') }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 text-sm font-medium">
-                        Dalje
-                    </button>
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg text-sm font-medium">Kyçu</a>
-                <a href="{{ route('register') }}" class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 text-sm font-medium">Regjistrohu</a>
-            @endif
+    <div class="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div class="px-10 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                {{-- DASHBOARD/HOME BUTTON --}}
+                @if (Auth::guard('company')->check())
+                    <a href="{{ route('company.dashboard') }}" class="flex items-center gap-2 h-10 px-4 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/></svg>
+                        Dashboard
+                    </a>
+                @elseif (Auth::guard('employee')->check())
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2 h-10 px-4 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 4v4m0 0v2m0-2v-2m9-2v2m0 0v2m0-2v-2"/></svg>
+                        Dashboard
+                    </a>
+                @else
+                    <a href="{{ route('home') }}" class="flex items-center gap-2 h-10 px-4 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded-lg transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                        Home
+                    </a>
+                @endif
+            </div>
+
+            <div class="flex items-center gap-3">
+                {{-- LOGOUT/LOGIN BUTTONS --}}
+                @if (Auth::guard('company')->check() || Auth::guard('employee')->check())
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="flex items-center h-10 px-6 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition">
+                            Dalje
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="flex items-center h-10 px-6 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded-lg transition">Kyçu</a>
+                    <a href="{{ route('register') }}" class="flex items-center h-10 px-6 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition">Regjistrohu</a>
+                @endif
+            </div>
         </div>
     </div>
-</div>
 
     {{-- HOME PAGE CONTENT --}}
     <div id="page-home" class="page active">

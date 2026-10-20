@@ -1,4 +1,4 @@
-{{-- ACTIVITY TAB --}}
+   Select-String -Path storage\framework\views\*.php -Pattern "TEST-12345" -List{{-- ACTIVITY TAB --}}
 <div id="activity-content" class="tab-content hidden">
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900">Aktiviteti</h1>

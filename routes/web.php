@@ -27,13 +27,13 @@ Route::post('register', [AuthController::class, 'registerCompany'])->name('regis
 Route::middleware(AuthCheck::class)->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('dashboard', function () {
-        $buses = auth('employee')->check()
-            ? \App\Models\Bus::where('company_id', auth('employee')->user()->company_id)->get()
-            : collect();
+   Route::get('dashboard', function () {
+    $buses = auth('employee')->check()
+        ? \App\Models\Bus::where('company_id', auth('employee')->user()->company_id)->get()
+        : collect();
 
-        return view('app', ['page' => 'dashboard', 'buses' => $buses]);
-    })->name('dashboard');
+    return view('app', ['page' => 'dashboard', 'buses' => $buses]);
+})->name('dashboard');
 
     Route::get('track-buses', function () {
         return view('app', ['page' => 'track-buses']);
