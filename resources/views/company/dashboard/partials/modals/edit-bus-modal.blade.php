@@ -1,40 +1,69 @@
-<div id="editBusModal" class="hidden fixed inset-0 bg-black/50 items-center justify-center z-50">
-    <form id="editBusForm" method="POST" class="bg-white p-6 rounded-lg w-full max-w-md space-y-3">
-        @csrf
-        @method('PUT')
-        <h2 class="text-xl font-bold">Edito Autobusin</h2>
-        <input name="plate" id="edit_bus_plate" class="border p-2 w-full rounded" required>
-        <input name="model" id="edit_bus_model" class="border p-2 w-full rounded" required>
-        <input name="capacity" id="edit_bus_capacity" type="number" min="1" class="border p-2 w-full rounded" required>
-        <input name="year" id="edit_bus_year" type="number" min="1900" class="border p-2 w-full rounded" required>
-        <select name="status" id="edit_bus_status" class="border p-2 w-full rounded">
-            <option value="active">active</option>
-            <option value="inactive">inactive</option>
-            <option value="maintenance">maintenance</option>
-        </select>
-        <div class="flex justify-end gap-2">
-            <button type="button" onclick="closeEditBus()" class="px-4 py-2 bg-gray-300 rounded">Anulo</button>
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Ruaj</button>
+{{-- Edit Bus Modal --}}
+<div id="editBusModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-900">Përditëso Autobusin</h2>
+            <button type="button" onclick="closeModal('editBusModal')" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
-    </form>
+
+        <form id="editBusForm" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tabela (Plate)</label>
+                    <input type="text" name="plate" id="editPlate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Modeli</label>
+                    <input type="text" name="model" id="editModel" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Kapaciteti</label>
+                        <input type="number" name="capacity" id="editCapacity" min="1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Viti</label>
+                        <input type="number" name="year" id="editYear" min="1900" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Statusi</label>
+                    <select name="status" id="editStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                        <option value="active">Aktiv</option>
+                        <option value="inactive">Inaktiv</option>
+                        <option value="maintenance">Në Mirëmbajtje</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-6">
+                <button type="button" onclick="closeModal('editBusModal')" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Anulo</button>
+                <button type="submit" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Përditëso</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
 function editBus(btn) {
     const bus = JSON.parse(btn.dataset.bus);
-    document.getElementById('editBusForm').action = '/buses/' + bus.id;
-    document.getElementById('edit_bus_plate').value = bus.plate;
-    document.getElementById('edit_bus_model').value = bus.model;
-    document.getElementById('edit_bus_capacity').value = bus.capacity;
-    document.getElementById('edit_bus_year').value = bus.year;
-    document.getElementById('edit_bus_status').value = bus.status;
-    const m = document.getElementById('editBusModal');
-    m.classList.remove('hidden');
-    m.classList.add('flex');
+
+    document.getElementById('editBusForm').action =
+        "{{ route('buses.update', ':id') }}".replace(':id', bus.id);
+    document.getElementById('editPlate').value = bus.plate;
+    document.getElementById('editModel').value = bus.model;
+    document.getElementById('editCapacity').value = bus.capacity;
+    document.getElementById('editYear').value = bus.year;
+    document.getElementById('editStatus').value = bus.status;
+
+    openModal('editBusModal');
 }
+
 function closeEditBus() {
-    const m = document.getElementById('editBusModal');
-    m.classList.add('hidden');
-    m.classList.remove('flex');
+    closeModal('editBusModal');
 }
 </script>

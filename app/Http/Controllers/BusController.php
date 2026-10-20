@@ -7,6 +7,24 @@ use Illuminate\Http\Request;
 
 class BusController extends Controller
 {
+    private function companyId()
+    {
+        return auth('company')->check()
+            ? auth('company')->id()
+            : auth('employee')->user()->company_id;
+    }
+
+    private function redirectAfter($message)
+    {
+        if (auth('company')->check()) {
+            return redirect()->route('company.dashboard')
+                ->with('tab', 'buses')
+                ->with('success', $message);
+        }
+
+        return redirect()->route('dashboard')->with('success', $message);
+    }
+
     public function index()
     {
         return redirect()->route('company.dashboard')->with('tab', 'buses');
@@ -22,17 +40,15 @@ class BusController extends Controller
             'status' => 'required|in:active,inactive,maintenance',
         ]);
 
-        $validated['company_id'] = auth('company')->id();
+        $validated['company_id'] = $this->companyId();
         Bus::create($validated);
 
-        return redirect()->route('company.dashboard')
-            ->with('tab', 'buses')
-            ->with('success', 'Autobusi u shtua me sukses!');
+        return $this->redirectAfter('Autobusi u shtua me sukses!');
     }
 
     public function update(Request $request, Bus $bus)
     {
-        abort_if($bus->company_id !== auth('company')->id(), 403);
+        abort_if($bus->company_id !== $this->companyId(), 403);
 
         $validated = $request->validate([
             'plate' => 'required|unique:buses,plate,' . $bus->id,
@@ -44,19 +60,15 @@ class BusController extends Controller
 
         $bus->update($validated);
 
-        return redirect()->route('company.dashboard')
-            ->with('tab', 'buses')
-            ->with('success', 'Autobusi u përditësua me sukses!');
+        return $this->redirectAfter('Autobusi u përditësua me sukses!');
     }
 
     public function destroy(Bus $bus)
     {
-        abort_if($bus->company_id !== auth('company')->id(), 403);
+        abort_if($bus->company_id !== $this->companyId(), 403);
 
         $bus->delete();
 
-        return redirect()->route('company.dashboard')
-            ->with('tab', 'buses')
-            ->with('success', 'Autobusi u fshi me sukses!');
+        return $this->redirectAfter('Autobusi u fshi me sukses!');
     }
 }

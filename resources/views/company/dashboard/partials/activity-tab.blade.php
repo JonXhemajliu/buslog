@@ -12,7 +12,7 @@
             </div>
             <div class="flex-1">
                 <p class="text-sm font-medium text-gray-900">Punonjës i ri i shtuar</p>
-                <p class="text-xs text-gray-500 mt-1">Agim Krasniqi u shtua si shofer - Sot në 14:32</p>
+                <p class="text-xs text-gray-500 mt-1">Agimsdasdasd u shtua si shofer - Sot në 14:32</p>
             </div>
         </div>
 

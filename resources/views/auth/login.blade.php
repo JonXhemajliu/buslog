@@ -47,7 +47,7 @@
                             <label class="text-xs font-medium text-gray-600">Email ose Username</label>
                           <input type="text" name="login" value="{{ old('login') }}" required
        class="w-full mt-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-       placeholder="biznesi@shembull.com">
+       placeholder="Email ose username">
                         </div>
                         <div>
                             <label class="text-xs font-medium text-gray-600">Fjalëkalimi</label>

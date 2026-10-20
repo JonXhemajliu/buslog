@@ -62,12 +62,12 @@
     </div>
 
     {{-- Modals (JASHTË content container) --}}
-    @if (auth('company')->check())
-        @include('company.dashboard.partials.modals.add-employee-tab')
-        @include('company.dashboard.partials.modals.edit-employee-tab')
-        @include('company.dashboard.partials.modals.bus-modal')
-        @include('company.dashboard.partials.modals.edit-bus-modal')
-    @endif
+@if (auth('company')->check())
+    @include('company.dashboard.partials.modals.add-employee-tab')
+    @include('company.dashboard.partials.modals.edit-employee-tab')
+    @include('company.dashboard.partials.modals.add-bus-modal')
+    @include('company.dashboard.partials.modals.edit-bus-modal')
+@endif
 
 </body>
 </html>

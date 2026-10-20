@@ -1,3 +1,5 @@
+
+<!-- TEST-12345 -->
 @extends('layouts.app')
 
 @section('content')
@@ -49,19 +51,19 @@
     </div>
 </div>
 
+
 <script>
 function switchTab(tab) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
     document.getElementById(tab + '-content').classList.remove('hidden');
 
-        document.getElementById('top-navbar').classList.toggle('hidden', tab !== 'dashboard');
+    document.getElementById('top-navbar').classList.toggle('hidden', tab !== 'dashboard');
 
     document.querySelectorAll('.nav-tab').forEach(el => {
         el.classList.remove('active', 'bg-red-50', 'text-red-600');
         el.classList.add('text-gray-600', 'hover:bg-gray-100');
     });
 
-    // Gjej butonin aktiv në sidebar (nëse klikimi erdhi nga sidebar-i, ose nga data-tab)
     const clicked = (typeof event !== 'undefined' && event && event.target && event.target.closest)
         ? event.target.closest('.nav-tab')
         : null;
@@ -80,6 +82,21 @@ function openModal(modalId) {
 function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
 }
+
+window.editEmployee = function (btn) {
+    const emp = JSON.parse(btn.dataset.employee);
+
+    document.getElementById('edit_title').value = emp.title;
+    document.getElementById('edit_name').value = emp.name;
+    document.getElementById('edit_surname').value = emp.surname;
+    document.getElementById('edit_username').value = emp.username;
+    document.getElementById('edit_email').value = emp.email;
+
+    document.getElementById('editEmployeeForm').action =
+        "{{ route('employees.update', ':id') }}".replace(':id', emp.id);
+
+    openModal('editEmployeeModal');
+};
 
 document.addEventListener('click', function (e) {
     if (e.target.id === 'addEmployeeModal' || e.target.id === 'editEmployeeModal') {
