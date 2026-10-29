@@ -12,4 +12,8 @@ class Bus extends Model
     {
         return $this->belongsTo(Company::class);
     }
+    public function records()
+{
+    return $this->hasMany(BusRecord::class);
+}
 }

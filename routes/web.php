@@ -6,6 +6,8 @@ use App\Http\Controllers\BusController;
 use App\Http\Middleware\AuthCheck;
 use App\Http\Middleware\CheckCompany;
 use App\Http\Middleware\CheckEmployee;
+use App\Http\Controllers\BusRecordController;
+
 
 // ===== PUBLIC ROUTES (NO MIDDLEWARE) =====
 Route::get('/', function () {
@@ -40,6 +42,14 @@ Route::middleware(AuthCheck::class)->group(function () {
     })->name('track-buses');
 
     // ===== BUS ACTIONS (COMPANY + EMPLOYEE) =====
+
+Route::get('buses/{bus}/records', [BusRecordController::class, 'index'])->name('bus-records.index');
+Route::post('buses/{bus}/records', [BusRecordController::class, 'store'])->name('bus-records.store');
+Route::put('bus-records/{record}', [BusRecordController::class, 'update'])->name('bus-records.update');
+Route::patch('bus-records/{record}/resolve', [BusRecordController::class, 'resolve'])->name('bus-records.resolve');
+Route::delete('bus-records/{record}', [BusRecordController::class, 'destroy'])->name('bus-records.destroy');
+
+
     Route::post('buses', [BusController::class, 'store'])->name('buses.store');
     Route::put('buses/{bus}', [BusController::class, 'update'])->name('buses.update');
     Route::delete('buses/{bus}', [BusController::class, 'destroy'])->name('buses.destroy');

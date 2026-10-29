@@ -28,12 +28,13 @@
    <table class="w-full text-left table-fixed min-w-[800px]">
     <thead class="bg-gray-50 text-xs font-semibold text-gray-600 uppercase">
         <tr>
-            <th class="px-4 py-3 w-[16%]">Tabela</th>
-            <th class="px-4 py-3 w-[22%]">Modeli</th>
-            <th class="px-4 py-3 w-[13%]">Kapaciteti</th>
-            <th class="px-4 py-3 w-[10%]">Viti</th>
-            <th class="px-4 py-3 w-[17%]">Statusi</th>
-            <th class="px-4 py-3 w-[22%] text-right">Veprimet</th>
+            <th class="px-4 py-3 w-[14%]">Tabela</th>
+            <th class="px-4 py-3 w-[20%]">Modeli</th>
+            <th class="px-4 py-3 w-[12%]">Kapaciteti</th>
+            <th class="px-4 py-3 w-[9%]">Viti</th>
+            <th class="px-4 py-3 w-[15%]">Statusi</th>
+            <th class="px-4 py-3 w-[15%]">Mirëmbajtja</th>
+            <th class="px-4 py-3 w-[15%] text-right">Veprimet</th>
         </tr>
     </thead>
             <tbody class="divide-y divide-gray-200">
@@ -48,12 +49,14 @@
                                 {{ ucfirst($bus->status) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap">
+                        <td class="px-4 py-4">
                             <button type="button"
-                                    data-bus="{{ json_encode($bus) }}"
-                                    onclick="editBus(this)"
-                                    class="text-blue-600 hover:underline mr-3">Ndrysho</button>
-
+                                    data-bus-history="{{ $bus->id }}" data-bus-name="{{ $bus->plate }}"
+                                    class="px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Historiku
+                            </button>
+                        </td>
+                        <td class="px-4 py-4 text-right whitespace-nowrap">
                             <form action="{{ route('buses.destroy', $bus->id) }}" method="POST" class="inline"
                                   onsubmit="return confirm('Je i sigurt?')">
                                 @csrf
@@ -64,9 +67,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">Nuk ka autobusë të regjistruar.</td>
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">Nuk ka autobusë të regjistruar.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
 </div>
+
+{{-- Pjesët e reja (tab-i Mirëmbajtja, modali Edito Autobusët, modali i historikut). Secila përfshihet vetëm NJË herë. --}}
+@include('company.dashboard.partials.maintenance')
+@include('company.dashboard.partials.bus-manager')
+@include('company.dashboard.partials.bus-history')

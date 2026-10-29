@@ -58,3 +58,6 @@
         </table>
     </div>
 </div>
+
+{{-- Modali "Edito Punonjës" (hapet nga Veprimet e Shpejta). Përfshihet vetëm NJË herë. --}}
+@include('company.dashboard.partials.employee-manager')

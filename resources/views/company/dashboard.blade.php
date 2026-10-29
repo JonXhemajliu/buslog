@@ -129,6 +129,7 @@
 @include('company.dashboard.partials.modals.add-employee-tab')
 @include('company.dashboard.partials.modals.edit-employee-tab')
 
+
 <script>
 function switchTab(tab) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));

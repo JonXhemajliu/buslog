@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthCheck
 {
+
     public function handle($request, Closure $next)
     {
         // ✅ Kontrollo nëse është logged in në ndonjë guard
