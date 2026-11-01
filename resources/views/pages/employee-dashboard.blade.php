@@ -44,6 +44,7 @@ $recent = $buses->sortByDesc('updated_at')->take(10);@endphp
                     <th class="px-4 py-3">Kapaciteti</th>
                     <th class="px-4 py-3">Viti</th>
                     <th class="px-4 py-3">Statusi</th>
+                    <th class="px-4 py-3">Mirëmbajtja</th>
                     <th class="px-4 py-3 text-right">Veprimet</th>
                 </tr>
             </thead>
@@ -55,6 +56,13 @@ $recent = $buses->sortByDesc('updated_at')->take(10);@endphp
                         <td class="px-4 py-3">{{ $bus->capacity }}</td>
                         <td class="px-4 py-3">{{ $bus->year }}</td>
                         <td class="px-4 py-3">{{ $statusLabels[$bus->status] ?? $bus->status }}</td>
+                        <td class="px-4 py-3">
+                            <button type="button"
+                                    data-bus-history="{{ $bus->id }}" data-bus-name="{{ $bus->plate }}"
+                                    class="px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Historiku
+                            </button>
+                        </td>
                         <td class="px-4 py-3 text-right whitespace-nowrap">
                             <button type="button" data-bus="{{ json_encode($bus) }}" onclick="empEditBus(this)"
                                     class="text-blue-600 hover:underline mr-3">Ndrysho</button>
@@ -67,7 +75,7 @@ $recent = $buses->sortByDesc('updated_at')->take(10);@endphp
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="px-4 py-4 text-center text-gray-500">Nuk ka autobusë.</td></tr>
+                    <tr><td colspan="7" class="px-4 py-4 text-center text-gray-500">Nuk ka autobusë.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -170,6 +178,9 @@ $recent = $buses->sortByDesc('updated_at')->take(10);@endphp
         </div>
     </form>
 </div>
+
+{{-- Modali i historikut (servise + defekte). Përfshihet vetëm NJË herë. --}}
+@include('company.dashboard.partials.bus-history')
 
 <script>
 function empOpen(id)  { document.getElementById(id).classList.remove('hidden'); }
